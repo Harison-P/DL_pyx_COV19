@@ -1,7 +1,7 @@
 numpy==1.18.5
 streamlit==0.71.0
 pandas==1.1.3
-PIL==7.2.0
+PIL
 random
 os
 matplotlib==3.3.2
