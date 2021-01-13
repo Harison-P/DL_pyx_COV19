@@ -12,7 +12,9 @@ The initial data consist of 2905 images:
 Note: On <strong><em>December the 12th of 2020</em></strong>, the number of images in the COVID-19 category from <em>Kaggle</em> increased to 1143 and the images were resized to <strong>256x256 pixels</strong>.
 
 
-Results: The <em>F1-score</em> achieved <strong>100%</strong> for the <strong>COVID-19</strong> class, <strong>96%</strong> for the <strong>Normal</strong> class and <strong>97%</strong> for the <strong>Viral Pneumonia</strong> class.
+Results:
+\
+The <em>F1-score</em> achieved <strong>100%</strong> for the <strong>COVID-19</strong> class, <strong>96%</strong> for the <strong>Normal</strong> class and <strong>97%</strong> for the <strong>Viral Pneumonia</strong> class.
 \
 The <em>accuracy</em> achieved <strong>97%</strong>.
 
