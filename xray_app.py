@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import modules.appsession as session
 from modules.img_classification import import_and_predict
 from modules.features_map import select_and_features_map
+from modules.grad_cam import get_img_array, make_gradcam_heatmap, display_grad_img
 from tensorflow.keras.preprocessing.image import ImageDataGenerator, img_to_array, load_img
 
 def main():
@@ -191,7 +192,7 @@ def page_cnn(state):
     st.write(
         'To build our efficient <strong>Convolutional Neural Network</strong>, we used the <strong>transfer learning</strong> technique that allows us to benefit from a relatively small computation time, and thus to save training time, and weights of a <em>pre-trained</em> model to increase the algorithm performance. Finally, this technique does not need a huge amount of X-rays data to get really efficient prediction of COVID-19.'
         '\n\n'
-        'Therefore, we imported a <strong>VGG16</strong> model pre-trained on ImageNet and we built a classifier made of <strong>dense</strong> and <strong>dropout</strong> layers.', unsafe_allow_html = True)
+        'Therefore, we imported a <strong>VGG16</strong> model pre-trained on ImageNet, froze the convolutional layers, and we built a classifier made of <strong>dense</strong> and <strong>dropout</strong> layers.', unsafe_allow_html = True)
     st.header('Architecture')
     st.write('\n\n')
     img = Image.open('static/VGG16_architecture.jpg')
@@ -208,7 +209,7 @@ def page_cnn(state):
         '\n\n'
         'The model was fit using the adjusted class weights on <em>20 epochs</em>. '
         '\n\n'
-        'We then proceeded to fine-tuning the model by <em>unfreezing</em> the last 10 layers of the pre-trained VGG16 model with an initial learning rate of <em>0.0001</em>, adding a “<strong>ReduceLROnPlateau</strong>” callback which aims for changing the learning rate with respect to a chosen metric on the test set.'
+        'We then proceeded to fine-tuning the model by unfreezing the last 10 layers of the pre-trained VGG16 model with an initial learning rate of <em>0.0001</em>, adding a “<strong>ReduceLROnPlateau</strong>” callback which aims for changing the learning rate with respect to a chosen metric on the test set.'
         '\n\n'
         'Here we chose to monitor the <strong>validation loss function</strong>, that is to say that the learning rate would be reduced when the quantity has stopped decreasing.'
         '\n\n'
@@ -409,7 +410,7 @@ def page_prediction(state):
     st.title("Chest Radiography Image Classification")
     st.write('\n\n')
     st.subheader("Upload a chest X-Ray for image classification as COVID-19, Normal or Viral Pneumonia")
-    uploaded_file = st.file_uploader("Choose a chest X-Ray ...", type = ["jpg", "png"])
+    uploaded_file = st.file_uploader("Choose a chest X-Ray ...", type = ["jpg", "png"], key="1")
     if uploaded_file is not None:
         image = Image.open(uploaded_file)
         st.image(image, caption='Uploaded X-Ray.', use_column_width=True)
@@ -423,6 +424,15 @@ def page_prediction(state):
             st.success("The model predicts the patient is **healthy**.")
         else:
             st.write("The model predicts the patient has **Viral Pneumonia**.")
+    st.info('If you want to visualize the important regions in the image for predicting a category, click below to produce a localization map called **Grad-CAM** *(Gradient-weighted Class Activation Mapping)*')
+    if st.checkbox("Produce Grad-CAM"):
+        uploaded_file2 = st.file_uploader("Choose a chest X-Ray ...", type = ["jpg", "png"], key="2")
+        if uploaded_file2 is not None:
+            image2 = Image.open(uploaded_file2)
+            img_array = get_img_array(image2)
+            heatmap = make_gradcam_heatmap(img_array)
+            gradcam_image = display_grad_img(image2, heatmap)
+            st.image(gradcam_image, use_column_width=True)
             
 # #################
 # Page Conclusion #
