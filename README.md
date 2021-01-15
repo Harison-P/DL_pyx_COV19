@@ -80,7 +80,7 @@ As far as the data augmentation technique is concerned, the following modificati
   -	Width shift with a range between -0.1 and 0.1
   -	Height shift with a range between -0.1 and 0.1
   -	Horizontal flip
-\
+  
 Only the horizontal flip was not applied to the batch of images in the test set.
 
 
@@ -94,7 +94,7 @@ The pre-trained VGG-16 model was imported for feature extraction and used as ent
   -	Dropout with rate = 0.5
   -	Dense with 64 units and ReLU activation function
   -	Dropout with rate = 0.5
-\
+
 The output layer is a Dense layer with 3 units and a softmax activation function (multinomial probability distribution) for our multi-class classification problem. We noticed that the addition of dense layers (in forward decreasing units) allowed to gain classification accuracy.
 
 
