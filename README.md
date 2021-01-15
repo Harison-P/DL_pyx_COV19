@@ -10,7 +10,7 @@ The data is availaible on: https://www.kaggle.com/tawsifurrahman/covid19-radiogr
 
 ## Folders
 
-The <em>dataset</em> folder contains the data used to train/test our model, with one subfolder for each category (COVID-19, Normal, Viral Pneumonia). It was not possible to upload all X-rays, but the original dataset is indicated in the readme.md file included in the folder.
+The <em>dataset</em> folder contains the data used to train/test our model, with one subfolder for each category (COVID-19, Normal, Viral Pneumonia).
 \
 The <em>modules</em> folder contains all the necessary dependencies to run specific functions during the navigation in the web app:
 
