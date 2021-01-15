@@ -10,6 +10,12 @@ from keras.applications.vgg16 import VGG16, preprocess_input
 from tensorflow.keras.models import load_model
 import numpy as np
 import streamlit as st
+import urllib.request
+import os
+
+url = 'https://github.com/Harison-P/DL_pyx_COV19/releases/download/v1.0/fine_tuned_vgg16_second_model.h5'
+modelfile = "model.h5" 
+urllib.request.urlretrieve(url, modelfile)
 
 def recall_m(y_true, y_pred):
     true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
@@ -30,14 +36,14 @@ def f1_m(y_true, y_pred):
 
 @st.cache(allow_output_mutation=True, show_spinner=False)
 def get_model():
-    model = keras.models.load_model('model/fine_tuned_vgg16_second_model.h5', custom_objects = {'f1_m' : f1_m})
+    model = keras.models.load_model(modelfile, custom_objects = {'f1_m' : f1_m})
     return model 
 
 @st.cache(allow_output_mutation=True, suppress_st_warning=True, show_spinner=False)
 def select_and_features_map(image, n_layer):
     # load the model
     model = get_model()
-    # redefine model to output right after the first hidden layer
+    # redefine model to output right after the n-th layer hidden layer
     model_select = Model(inputs=model.inputs, outputs=model.layers[n_layer].output)
     # load the image with the required shape
     img = load_img(image, target_size=(224, 224))
@@ -45,9 +51,9 @@ def select_and_features_map(image, n_layer):
     img = img_to_array(img)
     # expand dimensions so that it represents a single 'sample'
     img = np.expand_dims(img, axis=0)
-    # prepare the image (e.g. scale pixel values for the vgg)
+    # prepare the image (e.g. scale pixel values for VGG16)
     img = preprocess_input(img)
-    # get feature map for first hidden layer
+    # get feature map for n-th hidden layer
     features_map = model_select.predict(img)
     # We know the result will be a feature map with 224x224x64. We can plot all 64 two-dimensional images as an 8×8 square of images.
     # or plot a sublist of 64 maps in an 8x8 squares

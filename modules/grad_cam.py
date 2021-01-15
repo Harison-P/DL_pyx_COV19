@@ -1,5 +1,3 @@
-# needed packages
-
 import numpy as np
 import tensorflow as tf
 import keras
@@ -10,6 +8,11 @@ from tensorflow.keras.preprocessing.image import load_img, img_to_array, array_t
 from tensorflow.keras.models import load_model
 from PIL import Image, ImageOps
 import matplotlib.cm as cm
+import urllib.request
+
+url = 'https://github.com/Harison-P/DL_pyx_COV19/releases/download/v1.0/fine_tuned_vgg16_second_model.h5'
+modelfile = "model.h5" 
+urllib.request.urlretrieve(url, modelfile)
 
 def recall_m(y_true, y_pred):
     true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
@@ -30,12 +33,11 @@ def f1_m(y_true, y_pred):
 
 @st.cache(allow_output_mutation=True, show_spinner=False)
 def get_model():
-    model = keras.models.load_model('model/fine_tuned_vgg16_second_model.h5', custom_objects = {'f1_m' : f1_m})
+    model = keras.models.load_model(modelfile, custom_objects = {'f1_m' : f1_m})
     return model
 
 def get_img_array(image, size = (224, 224)):
-    # `img` is a PIL image of size 224x224
-    # img = load_img(img_path, target_size = size)
+    # resize image
     image = ImageOps.fit(image, size, Image.ANTIALIAS)
     # `array` is a float32 Numpy array of shape (224, 224, 3)
     image_array = np.asarray(image)

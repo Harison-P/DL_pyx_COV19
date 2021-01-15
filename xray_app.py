@@ -293,7 +293,7 @@ def page_cnn(state):
 def page_results(state):
     st.title('Results')
     st.write('\n\n')
-    st.warning('Given that two different datasets were used since the last update on *Kaggle*, two *identical* models were trained on the images. Here we will show you the results of both models and compare them as far as metrics are concerned.')
+    st.warning('Given that two different datasets were used since the last update on *Kaggle*, two *identical* models were trained on the images. Here we will show you the results of both models and compare them as far as metrics are concerned. Yet, with our fine-tuned model, we could achieve a 100% accuracy to detect COVID from Chest X-rays of the testing set.')
     st.write('\n\n')
     with st.beta_expander('Display results for the first model'):
         st.subheader('Model trained on the initial dataset (*imbalanced dataset*)')
@@ -424,15 +424,26 @@ def page_prediction(state):
             st.success("The model predicts the patient is **healthy**.")
         else:
             st.write("The model predicts the patient has **Viral Pneumonia**.")
-    st.info('If you want to visualize the important regions in the image for predicting a category, click below to produce a localization map called **Grad-CAM** *(Gradient-weighted Class Activation Mapping)*')
-    if st.checkbox("Produce Grad-CAM"):
-        uploaded_file2 = st.file_uploader("Choose a chest X-Ray ...", type = ["jpg", "png"], key="2")
-        if uploaded_file2 is not None:
-            image2 = Image.open(uploaded_file2)
-            img_array = get_img_array(image2)
-            heatmap = make_gradcam_heatmap(img_array)
-            gradcam_image = display_grad_img(image2, heatmap)
-            st.image(gradcam_image, use_column_width=True)
+        st.info('It can be very interesting to **visualize** directly what the **Convolutional Neural Network** values in the images for predicting the condition.'
+            '\n\n'
+            "For non-technical people in the medical field, especially in *radiology*, it is important to know how the model as discriminate healthy patient X-Rays from that of a COVID-19 case or Viral Pneumonia case."
+            '\n\n'
+            "Hence, the **GRADient-weighted Class Activation Mapping** (*Grad-CAM*) is a technic aiming at visualizing the features used for classification by generating a **heatmap** superimposed on the image."
+            '\n\n'
+            'Click below to produce a *Grad-CAM* visualization')
+        if st.checkbox("Produce Grad-CAM"):
+            if uploaded_file is not None:
+                image2 = Image.open(uploaded_file)
+                img_array = get_img_array(image2)
+                heatmap = make_gradcam_heatmap(img_array)
+                gradcam_image = display_grad_img(image2, heatmap)
+                st.image(gradcam_image, use_column_width=True)
+                st.success("By highlighting the most important features, we could potentially show the characteristics of contracting COVID-19 and those features could be used for further model exploration such as the evolution of the disease through time, or a comparison of pulmonaries symptoms between several diseases.")
+                st.warning('We see from the localization map that characteristics of COVID-19 is often at the **endings of the lungs**, that is presumably the inflammation of the alveoli (i.e. the small air sacs containing oxygen that crosses into bloodstreams are filled up by fluid). Also, recent studies highlighted that, contrarily to other pneumonia-caused viruses, COVID-19 is more frequently affecting both lungs, but also that it is a multi-visceral disease that can affect also liver, kidneys, heart, nerves.'
+                '\n\n'
+                "It could be helpful to look at a more 'global' picture of human body, which might therefore highlight other body parts being stricken by the virus")
+                
+
             
 # #################
 # Page Conclusion #
@@ -451,23 +462,6 @@ def page_conclusion(state):
         "Nonetheless, we're proud of displaying our work in a WebApp that hopefully will teach and entertain at the same time."
         '\n\n'
         'To summarize, with our model, we could demonstrate the efficiency of <strong>deep transfer learning</strong> for radiography analyses and diagnosis, with an appropriate architecture and fine-tuning parameters.', unsafe_allow_html = True)
-    with st.beta_expander('Bonus'):
-        st.write(
-            'It can be very useful and interesting to <strong>visualize</strong> what the <strong>Convolutional Neural Network</strong> values when it does a prediction.'
-            '\n\n'
-            "For non-technical people in the medical field, especially in <em>radiology</em>, it's important to know the difference and discriminate <strong>healthy patient</strong> X-Rays from that of a <strong>COVID-19</strong> case or <strong>Viral Pneumonia</strong> case. Fortunately, it is possible to visualize what the CNN deems as <strong>significant features</strong>."
-            '\n\n'
-            'Hence, introducing the <strong>Grad-CAM class activation maps</strong> (<em>GRADient-weighted Class Activation Mapping</em>). Grad-CAM class activation maps generate <strong>heatmaps</strong> at the <em>convolutional</em> level rather than the <em>dense neural layer</em> level, taking into account more spatial details.'
-            '\n\n'
-            'Below, a localization map is produced highlighting the important regions in the image for predicting for COVID-19.', unsafe_allow_html = True)
-        covid_gradcam = Image.open('static/gradcam_covid.jpg')
-        st.image(covid_gradcam, use_column_width = True)
-        st.info(
-            'We see from the localization map that both lungs express the characteristics of COVID-19, particularly at the **end of the rib cage**, that is presumably the inflammation of the alveoli (i.e. the small air sacs containing oxygen that crosses into bloodstreams are filled up by fluid). Indeed, recent studies highlighted that, contrarily to other pneumonia-caused viruses, COVID-19 is affecting both lungs.')
-        st.write(
-            "For some unknown reasons, this interpretation technique didn't work properly for all images. Unfortunately, we didn't have enough time to focus more on figuring out how we could adjust the code behind Grad-CAM and display a set of images chosen by the user.", unsafe_allow_html = True)
-        st.info(
-            'There are improvements that can still be made to this project. One remaining problem is to understand how the model learned to classify the images for each category (model interpretability). By highlighting the most important features, we could potentially show the characteristics of contracting COVID-19 and those features could be used for further model exploration such as the evolution of the disease through time, or a comparison of pulmonaries symptoms between population categories (age, gender, ...).')
 
 # #####################################
 
