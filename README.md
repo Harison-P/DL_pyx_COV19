@@ -6,6 +6,8 @@ By deploying a web application using Streamlit, we hope that others would be abl
 
 The data is availaible on: https://www.kaggle.com/tawsifurrahman/covid19-radiography-database
 
+To see the app >> https://share.streamlit.io/harison-p/dl_pyx_cov19/main/xray_app.py
+
 # Explanation of DL_pyx_COV19 repository
 
 ## Folders
