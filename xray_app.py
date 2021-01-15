@@ -190,7 +190,7 @@ def page_cnn(state):
     st.title('CNN Modelling')
     st.write('\n\n')
     st.write(
-        'To build our efficient <strong>Convolutional Neural Network</strong>, we used the <strong>transfer learning</strong> technique that allows us to benefit from a relatively small computation time, and thus to save training time, and weights of a <em>pre-trained</em> model to increase the algorithm performance. Finally, this technique does not need a huge amount of X-rays data to get really efficient prediction of COVID-19.'
+        'To build our efficient <strong>Convolutional Neural Network</strong>, we used the <strong>transfer learning</strong> technique that allows us to benefit from a relatively small computation time, and thus to save training time, and weights of a <em>pre-trained</em> model to increase the algorithm performance. Finally, this technique does not need a huge amount of X-rays data to get a really efficient prediction of COVID-19.'
         '\n\n'
         'Therefore, we imported a <strong>VGG16</strong> model pre-trained on ImageNet, froze the convolutional layers, and we built a classifier made of <strong>dense</strong> and <strong>dropout</strong> layers.', unsafe_allow_html = True)
     st.header('Architecture')
@@ -293,7 +293,7 @@ def page_cnn(state):
 def page_results(state):
     st.title('Results')
     st.write('\n\n')
-    st.warning('Given that two different datasets were used since the last update on *Kaggle*, two *identical* models were trained on the images. Here we will show you the results of both models and compare them as far as metrics are concerned. Yet, with our fine-tuned model, we could achieve a 100% accuracy to detect COVID from Chest X-rays of the testing set.')
+    st.warning('Given that two different datasets were used since the last update on *Kaggle*, two *identical* models were trained on the images. Here we will show you the results of both models and compare them as far as metrics are concerned. Yet, with our fine-tuned model, we could achieve a 100% accuracy on detecting COVID-19 from chest X-rays on the test set.')
     st.write('\n\n')
     with st.beta_expander('Display results for the first model'):
         st.subheader('Model trained on the initial dataset (*imbalanced dataset*)')
@@ -426,11 +426,11 @@ def page_prediction(state):
             st.write("The model predicts the patient has **Viral Pneumonia**.")
         st.info('It can be very interesting to **visualize** directly what the **Convolutional Neural Network** values in the images for predicting the condition.'
             '\n\n'
-            "For non-technical people in the medical field, especially in *radiology*, it is important to know how the model as discriminate healthy patient X-Rays from that of a COVID-19 case or Viral Pneumonia case."
+            "For non-technical people in the medical field, especially in *radiology*, it is important to know how the model discriminates healthy patients' X-Rays from that of a COVID-19 case or Viral Pneumonia case."
             '\n\n'
-            "Hence, the **GRADient-weighted Class Activation Mapping** (*Grad-CAM*) is a technic aiming at visualizing the features used for classification by generating a **heatmap** superimposed on the image."
+            "Hence, the **GRADient-weighted Class Activation Mapping** (*Grad-CAM*) is a technique aiming at visualizing the features used for classification by generating a **heatmap** superimposed on the image."
             '\n\n'
-            'Click below to produce a *Grad-CAM* visualization')
+            'Click below to produce a *Grad-CAM* visualization.')
         if st.checkbox("Produce Grad-CAM"):
             if uploaded_file is not None:
                 image2 = Image.open(uploaded_file)
@@ -439,11 +439,9 @@ def page_prediction(state):
                 gradcam_image = display_grad_img(image2, heatmap)
                 st.image(gradcam_image, use_column_width=True)
                 st.success("By highlighting the most important features, we could potentially show the characteristics of contracting COVID-19 and those features could be used for further model exploration such as the evolution of the disease through time, or a comparison of pulmonaries symptoms between several diseases.")
-                st.warning('We see from the localization map that characteristics of COVID-19 is often at the **endings of the lungs**, that is presumably the inflammation of the alveoli (i.e. the small air sacs containing oxygen that crosses into bloodstreams are filled up by fluid). Also, recent studies highlighted that, contrarily to other pneumonia-caused viruses, COVID-19 is more frequently affecting both lungs, but also that it is a multi-visceral disease that can affect also liver, kidneys, heart, nerves.'
+                st.warning('We see from the localization map that characteristics of COVID-19 are often located at the **inferior part of the lungs** (*basal lung*), that is presumably the inflammation of the alveoli (**i.e.** the small air sacs containing oxygen that crosses into bloodstreams are filled up by fluid). Also, recent studies highlighted that, contrarily to other pneumonia-caused viruses, COVID-19 is more frequently affecting both lungs, but also that it is a multi-visceral disease that can affect also liver, kidneys, heart, nerves.'
                 '\n\n'
-                "It could be helpful to look at a more 'global' picture of human body, which might therefore highlight other body parts being stricken by the virus")
-                
-
+                "It could be helpful to look at a more 'global' picture of the human body, which might therefore highlight other body parts being stricken by the virus.")
             
 # #################
 # Page Conclusion #
@@ -453,7 +451,7 @@ def page_conclusion(state):
     st.title('Summary')
     st.write('\n\n')
     st.write(
-        "Working on this project at the very moment of the outbreak made us feel useful and helpful as we're trying to assist radiologists and all the medical personnel hardly working in the front line."
+        "Working on this project at the very moment of the outbreak made us feel useful and helpful as we're trying to assist radiologists and all the medical personnel working hard on the front line."
         '\n\n'
         "What's interesting is that we've showcased our knowledge and skills on two fields that's breathtaking to us and that weaves perfectly together: Artificial Intelligence and Medicine."
         '\n\n'
