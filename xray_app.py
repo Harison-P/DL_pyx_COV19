@@ -410,7 +410,7 @@ def page_prediction(state):
     st.title("Chest Radiography Image Classification")
     st.write('\n\n')
     st.subheader("Upload a chest X-Ray for image classification as COVID-19, Normal or Viral Pneumonia")
-    uploaded_file = st.file_uploader("Choose a chest X-Ray ...", type = ["jpg", "png"], key="1")
+    uploaded_file = st.file_uploader("Choose a chest X-Ray ...", type = ["jpg", "jpeg", "png"], key="1")
     if uploaded_file is not None:
         image = Image.open(uploaded_file)
         st.image(image, caption='Uploaded X-Ray.', use_column_width=True)
